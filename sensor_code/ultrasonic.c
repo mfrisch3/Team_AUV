@@ -1,12 +1,16 @@
-#include <stdio.h>      // Standard I/O functions
-#include <stdlib.h>     // Standard library functions
-#include <stdint.h>     // Standard integer types (e.g., uint8_t)
-#include <unistd.h>     // For usleep() function (microsecond delay)
-#include <fcntl.h>      // For file control options
-#include <termios.h>    // For configuring serial communication
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <termios.h>
 
 #define SERIAL_PORT "/dev/serial0"  // Default UART port on Raspberry Pi
 #define COM 0x55                    // Command byte sent to the sensor
+
+unsigned char buffer_RTT[4] = {0};
+uint8_t CS;
+int Distance = 0;
 
 int serial_fd;  // File descriptor for the serial port
 
@@ -52,17 +56,16 @@ int UART_read(int fd) {
 }
 
 int main() {
-    uint8_t buffer_RTT[4] = {0}; // Buffer to store received data
-    uint8_t CS;  // Checksum variable
-    int Distance = 0; // Variable to store calculated distance
-
-    // Initialize Serial Communication
+    // Initialize serial communication
     serial_fd = UART_init(SERIAL_PORT, B115200);
-    if (serial_fd == -1) return 1;  // Exit if serial port fails to open
+    if (serial_fd == -1) {
+        return 1;  // Exit if serial port fails to open
+    }
 
+    // Main loop
     while (1) {
         UART_write(serial_fd, COM);  // Send command byte to request data
-        usleep(100000);  // Delay 100ms for the sensor to respond
+        usleep(100000);  // Wait 100ms for the sensor to respond
 
         if (UART_read(serial_fd) == 0xff) {  // Check if the first byte is the start marker (0xFF)
             buffer_RTT[0] = 0xff;  // Store the start byte
@@ -76,13 +79,13 @@ int main() {
             // Validate checksum
             if (buffer_RTT[3] == CS) {
                 Distance = (buffer_RTT[1] << 8) + buffer_RTT[2];  // Combine high and low bytes
-
-                // Print the distance value
-                printf("Distance: %d mm\n", Distance);
+                printf("Distance: %d mm\n", Distance);  // Print the distance
+            } else {
+                printf("Checksum error\n");
             }
         }
     }
 
-    close(serial_fd); // Close the serial port (this line will not be reached in an infinite loop)
+    close(serial_fd);  // Close the serial port
     return 0;
 }
