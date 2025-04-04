@@ -10,7 +10,7 @@ LED_PIN = 6  # GPIO6 (BCM numbering)
 led = LED(LED_PIN)
 
 # Setup Serial communication
-ser = serial.Serial('/dev/serial0', 115200, timeout=1)
+ser = serial.Serial('/dev/tty0', 115200, timeout=1)
 time.sleep(2)  # Allow time for serial to settle
 
 def calculate_distance(buffer):
