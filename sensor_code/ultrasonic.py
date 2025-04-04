@@ -1,6 +1,6 @@
 import serial
 import time
-import RPi.GPIO as GPIO
+import gpiozero
 
 # Constants
 COM = 0x55
