@@ -2,7 +2,8 @@ import piplates.ADCplate as ADC
 import time
 import numpy as np  
 import matplotlib.pyplot as plt
-plt.ion() # turn on interactive mode
+
+plt.ion() # Enable interactive mode for real-time plotting
 
 addr = 0  # ADC plate address
 N = 1000  # Number of data points per channel
