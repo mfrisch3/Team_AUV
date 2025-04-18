@@ -1,6 +1,15 @@
-#include <linux/i2c-dev.h>
-#include <i2c/smbus.h>
+extern "C" {
+    #include <linux/i2c-dev.h>
+    #include <i2c/smbus.h>
+}
 #include <time.h>
+#include <cstdio>
+#include <cstdint>
+#include <cstdlib>
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/ioctl.h>
+#include <cmath>
 
 //  board addresses for I2C setup
 #define ICM_READ  0xD5
@@ -35,10 +44,11 @@
 #define SDA_PIN A4
 #define SCL_PIN A5
 
-//Global Variables
-byte RxBuffer[100] = {0};
+//Global Variable
+uint8_t RxBuffer[100] = {0};
 int RxIdx = 0;
 const float GYRO_MULT = 0.004375;
+int file;
 
 struct IMUData {
   int16_t ax, ay, az;
@@ -53,9 +63,11 @@ unsigned long micros() {
 
 void get_events(IMUData* data){
   uint32_t res;
-  uint8_t buffer[12];
-
-  res = i2c_smbus_read_block_data(file, OUTX_L_G, 12, &buffer);
+  uint8_t buffer[32];
+  
+  for (int i = 0; i < 12; i++) {
+     buffer[i] = i2c_smbus_read_byte_data(file, OUTX_L_G+i);
+  }
 
   data->gx = (buffer[1] << 8) | buffer[0];
   data->gy = (buffer[3] << 8) | buffer[2];
@@ -76,12 +88,11 @@ double roll = 0;
 IMUData events;
 
 void setup() {
-  int file;
   int adapter_nr = 1;
 
   char filename[20];
 
-  printf(filename, 19, "/dev/i2c-%d", adapter_nr);
+  snprintf(filename, 19, "/dev/i2c-%d", adapter_nr);
   file = open(filename, O_RDWR);
 
   if (file < 0) {
@@ -168,7 +179,7 @@ void loop() {
   height += velocity * dt;
 
   // Output
-  printf("Accelerometer (ax, ay, az): %d, %d, %d\n", ax, ay, az);
+  printf("Accelerometer (ax, ay, az): %d, %d, %d\n", events.ax, events.ay, events.az);
   printf("Gyroscope (gx, gy, gz): %d, %d, %d\n", gx, gy, gz);
   
 }
