@@ -51,52 +51,11 @@ unsigned long micros() {
     return (unsigned long)(ts.tv_sec * 1000000UL + ts.tv_nsec / 1000);
 }
 
-bool check_IMU() {
-  uint8_t error;
-  Wire.beginTransmission(IMU_ADDR);
-  error = Wire.endTransmission();
-
-  if(error == 0){
-    Serial.print("Device found at address: 0x");
-    Serial.println(IMU_ADDR, HEX);
-    return true;
-  }
-  Serial.print("Board not found");
-  return false;
-}
-
-bool read_test(){
-  uint8_t error;
-  uint8_t val;
-
-  // se
-  Wire.beginTransmission(IMU_ADDR);
-  Wire.write(WHO_AM_I);
-  error = Wire.endTransmission();
-
-  // error from transmission
-  if(error != 0){
-    Serial.print("Error connecting to device w/ error: ");
-    Serial.println(error);
-  }
-
-  Wire.requestFrom(IMU_ADDR, 1);
-
-  if(Wire.available() == 1){
-    Serial.print("WHO_AM_I: ");
-    Serial.println(Wire.read(), HEX);
-    return 1;
-  }
-
-  return 0;
-}
-
 void get_events(IMUData* data){
   uint32_t res;
   uint8_t buffer[12];
 
   res = i2c_smbus_read_block_data(file, OUTX_L_G, 12, &buffer);
-  for (int i = 0; i < 12; i++) buffer[i] = Wire.read();
 
   data->gx = (buffer[1] << 8) | buffer[0];
   data->gy = (buffer[3] << 8) | buffer[2];
@@ -117,10 +76,6 @@ double roll = 0;
 IMUData events;
 
 void setup() {
-  // put your setup code here, to run once:
-  Serial.begin(9600);
-  Serial.println("Begin I2C Connection");
-
   int file;
   int adapter_nr = 1;
 
@@ -140,20 +95,22 @@ void setup() {
   
   char buf[12];
   uint32_t res;
-
-  res = i2c_smbus_read_word_data(file, G_CNTRL);
-  if (res < 0) {
-	  printf("Error connecting to control register");
-  } else {
+  
+  // Setup Control Register for Gyro
+  res = i2c_smbus_write_word_data(file, G_CNTRL, HIGH_PFMNC);
+  if (res < 0){
+      printf("gyro control i2c interaction failed");
+      exit(1);
   }
-  buf[0] = G_CNTRL;
-  buf[1] = HIGH_PFMNC;
-  if (write(file, buf, 2) != 2) {
-	  printf("could not alter cntrl register");
+  // Setup control register for accel
+  res = i2c_smbus_write_word_data(file, XL_CNTRL, HIGH_PFMNC);
+  if (res < 0){
+      printf("accel control i2c interaction failed");
+      exit(1);
   }
-  // Wire.write(LOW_POWER); //low power but 52Hz sampling
+  
+  // initialize timer module to get dt integrand
   prevTime = micros();
-
 }
 
 void loop() {
@@ -211,29 +168,9 @@ void loop() {
   height += velocity * dt;
 
   // Output
-  Serial.print("Const:");
-  Serial.println(1);
-  Serial.print(",");
-
-  // // Gyroscope Outputs
-  Serial.print("Pitch:");
-  Serial.println(pitch, 4);
-  Serial.println(",");
-  Serial.print("Yaw:");
-  Serial.println(yaw, 4);
-  Serial.println(",");
-  Serial.print("Roll:");
-  Serial.println(roll, 4);
-  // // Acceleration and Height
-
-  // Serial.print("Accel:");
-  // Serial.println(a, 4);
-  // Serial.print(",");
-  // Serial.print("Velocity:");
-  // Serial.println(velocity, 4);
-  // Serial.print(",");
-  // Serial.print("Height:");
-  // Serial.println(height, 6);
+  printf("Accelerometer (ax, ay, az): %d, %d, %d\n", ax, ay, az);
+  printf("Gyroscope (gx, gy, gz): %d, %d, %d\n", gx, gy, gz);
+  
 }
 
 int main(){
