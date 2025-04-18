@@ -1,4 +1,6 @@
-#include <Wire.h>
+#include <linux/i2c-dev.h>
+#include <i2c/smbus.h>
+#include <time.h>
 
 //  board addresses for I2C setup
 #define ICM_READ  0xD5
@@ -43,6 +45,12 @@ struct IMUData {
   int16_t gx, gy, gz;
 };
 
+unsigned long micros() {
+    struct timespec ts;
+    clock_gettime(CLOCK_MONOTONIC, &ts);
+    return (unsigned long)(ts.tv_sec * 1000000UL + ts.tv_nsec / 1000);
+}
+
 bool check_IMU() {
   uint8_t error;
   Wire.beginTransmission(IMU_ADDR);
@@ -84,12 +92,10 @@ bool read_test(){
 }
 
 void get_events(IMUData* data){
-  Wire.beginTransmission(IMU_ADDR);
-  Wire.write(OUTX_L_G);
-  Wire.endTransmission(false);
-  Wire.requestFrom(IMU_ADDR, 12); // 12 bytes, 2 bytes for each x,y,z of accel and gyro
-
+  uint32_t res;
   uint8_t buffer[12];
+
+  res = i2c_smbus_read_block_data(file, OUTX_L_G, 12, &buffer);
   for (int i = 0; i < 12; i++) buffer[i] = Wire.read();
 
   data->gx = (buffer[1] << 8) | buffer[0];
@@ -114,32 +120,40 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
   Serial.println("Begin I2C Connection");
-  Wire.begin();
 
-  if(!check_IMU()){
-    Serial.println("Search for IMU failed");
+  int file;
+  int adapter_nr = 1;
+
+  char filename[20];
+
+  printf(filename, 19, "/dev/i2c-%d", adapter_nr);
+  file = open(filename, O_RDWR);
+
+  if (file < 0) {
+	  printf("Issue with i2c with error: %d", file);
+	  exit(1);
   }
 
-  if(read_test()){
-    Serial.println("IMU I2C protocol success");
+  if (ioctl(file, I2C_SLAVE, IMU_ADDR)){
+	printf("Issue with i2c error: %d", file);
   }
+  
+  char buf[12];
+  uint32_t res;
 
-  // let's actually turn on the accelerometer this time lol
-  Wire.beginTransmission(IMU_ADDR);
-  Wire.write(XL_CNTRL);
+  res = i2c_smbus_read_word_data(file, G_CNTRL);
+  if (res < 0) {
+	  printf("Error connecting to control register");
+  } else {
+  }
+  buf[0] = G_CNTRL;
+  buf[1] = HIGH_PFMNC;
+  if (write(file, buf, 2) != 2) {
+	  printf("could not alter cntrl register");
+  }
   // Wire.write(LOW_POWER); //low power but 52Hz sampling
-  Wire.write(HIGH_PFMNC); //high power but 6.66kHz sampling
-  Wire.endTransmission();
-
-  Wire.beginTransmission(IMU_ADDR);
-  Wire.write(G_CNTRL);
-  // Wire.write(LOW_POWER); //low power but 52Hz sampling
-  Wire.write(HIGH_PFMNC); //high power but 6.66kHz sampling
-  Wire.endTransmission();
-
-  Wire.requestFrom(IMU_ADDR, 1);
-
   prevTime = micros();
+
 }
 
 void loop() {
@@ -221,3 +235,12 @@ void loop() {
   // Serial.print("Height:");
   // Serial.println(height, 6);
 }
+
+int main(){
+	setup();
+
+	while(1){
+		loop();
+	}
+}
+
