@@ -7,10 +7,21 @@ import plotext
 
 
 plt.ion()  # Enable interactive mode for real-time plotting
-PIN= 26
-motor = PWMOutputDevice(PIN, frequency=50)
+# Get GPIO pin number for the motors
+# NEED TO FIGURE OUT WHICH PIN IS MAPPED TO WHICH MOTOR
+M1_PIN = 6
+M2_PIN = 21
+M3_PIN = 16
+M4_PIN = 12
+M5_PIN = 13
+M6_PIN = 5
+
+# initialize motors for PWM output
+#motor = PWMOutputDevice(PIN, frequency=50)
+motor_1 = PWMOutputDevice(M1_PIN, frequency=50)
 addr = 0  # ADC plate address
 N = 2000  # Number of data points per channel
+
 
 data_D0 = list()
 data_D1 = list()
@@ -67,18 +78,26 @@ while True:
     # -------------------------------
     # NEW: Compute and print the magnitude in the 110-125Hz range
     # Create a boolean mask for frequencies between 110 and 125 Hz
-    mask = (freq >= 120) & (freq <= 150)
-    # Compute the average magnitude in this frequency band for channel D0.
-    magnitude_voltage = np.max(FFT_D0[mask])
-    print("Magnitude of voltage between 120Hz and 150Hz: {:.4f}".format(magnitude_voltage))
+    mask = (freq >= 10) & (freq <= 150)
     
+    max_index = np.argmax(FFT_D0[mask])
+    max_freq = (freq[mask])[max_index]
+    # --------------------------------
+    # Freq: 89-Left 96-Right 107-Back 116-Forward
+    # --------------------------------
+    
+    if(max_freq == 89):
+        motor_1.value = duty_s/100
+        #motor_2.value = duty_s/100
+        #motor_3.value = duty_s/100
+        #motor_4.value = duty_s/100
+        #motor_5.value = duty_s/100
+        #motor_6.value = duty_s/100
     
 
-
-
-    if(magnitude_voltage >= 0.1):
-        duty_s = 10
-        motor.value = duty_s / 100  # Convert to range 0-1
+    #if(magnitude_voltage >= 0.1):
+     #   duty_s = 10
+      #  motor.value = duty_s / 100  # Convert to range 0-1
         #motor_speed = set_motor_speed(motor, duty_s)
     #elif magnitude_voltage >= 0.12:
        # duty_s = 6
