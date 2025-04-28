@@ -1,0 +1,9 @@
+source;share/thruster_mixer/hook/pythonpath.ps1
+source;share/thruster_mixer/hook/pythonpath.dsv
+source;share/thruster_mixer/hook/pythonpath.sh
+source;share/thruster_mixer/hook/ament_prefix_path.ps1
+source;share/thruster_mixer/hook/ament_prefix_path.dsv
+source;share/thruster_mixer/hook/ament_prefix_path.sh
+source;../../build/thruster_mixer/share/thruster_mixer/hook/pythonpath_develop.ps1
+source;../../build/thruster_mixer/share/thruster_mixer/hook/pythonpath_develop.dsv
+source;../../build/thruster_mixer/share/thruster_mixer/hook/pythonpath_develop.sh

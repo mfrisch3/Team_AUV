@@ -1,0 +1,20 @@
+running develop
+running egg_info
+creating thruster_mixer.egg-info
+writing thruster_mixer.egg-info/PKG-INFO
+writing dependency_links to thruster_mixer.egg-info/dependency_links.txt
+writing requirements to thruster_mixer.egg-info/requires.txt
+writing top-level names to thruster_mixer.egg-info/top_level.txt
+writing manifest file 'thruster_mixer.egg-info/SOURCES.txt'
+reading manifest file 'thruster_mixer.egg-info/SOURCES.txt'
+writing manifest file 'thruster_mixer.egg-info/SOURCES.txt'
+running build_ext
+Creating /home/pi/Team_AUV/ROS_Workspace/install/thruster_mixer/lib/python3.11/site-packages/thruster-mixer.egg-link (link to .)
+
+Installed /home/pi/Team_AUV/ROS_Workspace/build/thruster_mixer
+running symlink_data
+creating /home/pi/Team_AUV/ROS_Workspace/install/thruster_mixer/share/ament_index
+creating /home/pi/Team_AUV/ROS_Workspace/install/thruster_mixer/share/ament_index/resource_index
+creating /home/pi/Team_AUV/ROS_Workspace/install/thruster_mixer/share/ament_index/resource_index/packages
+symbolically linking /home/pi/Team_AUV/ROS_Workspace/build/thruster_mixer/resource/thruster_mixer -> /home/pi/Team_AUV/ROS_Workspace/install/thruster_mixer/share/ament_index/resource_index/packages
+symbolically linking /home/pi/Team_AUV/ROS_Workspace/build/thruster_mixer/package.xml -> /home/pi/Team_AUV/ROS_Workspace/install/thruster_mixer/share/thruster_mixer

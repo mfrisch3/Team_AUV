@@ -1,0 +1,99 @@
+[0.000000] (-) TimerEvent: {}
+[0.001258] (thruster_mixer) JobQueued: {'identifier': 'thruster_mixer', 'dependencies': OrderedDict()}
+[0.002119] (thruster_mixer) JobStarted: {'identifier': 'thruster_mixer'}
+[0.101204] (-) TimerEvent: {}
+[0.201765] (-) TimerEvent: {}
+[0.302335] (-) TimerEvent: {}
+[0.402928] (-) TimerEvent: {}
+[0.503493] (-) TimerEvent: {}
+[0.604055] (-) TimerEvent: {}
+[0.704661] (-) TimerEvent: {}
+[0.805245] (-) TimerEvent: {}
+[0.905801] (-) TimerEvent: {}
+[1.006328] (-) TimerEvent: {}
+[1.106847] (-) TimerEvent: {}
+[1.207823] (-) TimerEvent: {}
+[1.309726] (-) TimerEvent: {}
+[1.411158] (-) TimerEvent: {}
+[1.512051] (-) TimerEvent: {}
+[1.613124] (-) TimerEvent: {}
+[1.714102] (-) TimerEvent: {}
+[1.814995] (-) TimerEvent: {}
+[1.915911] (-) TimerEvent: {}
+[2.016779] (-) TimerEvent: {}
+[2.118458] (-) TimerEvent: {}
+[2.221144] (-) TimerEvent: {}
+[2.321682] (-) TimerEvent: {}
+[2.422547] (-) TimerEvent: {}
+[2.523446] (-) TimerEvent: {}
+[2.624549] (-) TimerEvent: {}
+[2.725419] (-) TimerEvent: {}
+[2.826265] (-) TimerEvent: {}
+[2.927114] (-) TimerEvent: {}
+[3.027996] (-) TimerEvent: {}
+[3.128973] (-) TimerEvent: {}
+[3.230092] (-) TimerEvent: {}
+[3.331069] (-) TimerEvent: {}
+[3.431989] (-) TimerEvent: {}
+[3.532992] (-) TimerEvent: {}
+[3.634307] (-) TimerEvent: {}
+[3.735162] (-) TimerEvent: {}
+[3.836046] (-) TimerEvent: {}
+[3.936991] (-) TimerEvent: {}
+[4.037925] (-) TimerEvent: {}
+[4.138813] (-) TimerEvent: {}
+[4.239684] (-) TimerEvent: {}
+[4.340561] (-) TimerEvent: {}
+[4.441659] (-) TimerEvent: {}
+[4.543313] (-) TimerEvent: {}
+[4.644792] (-) TimerEvent: {}
+[4.692223] (thruster_mixer) Command: {'cmd': ['/usr/bin/python3', '-W', 'ignore:setup.py install is deprecated', '-W', 'ignore:easy_install command is deprecated', 'setup.py', 'develop', '--editable', '--build-directory', '/home/pi/Team_AUV/ROS_Workspace/build/thruster_mixer/build', '--no-deps', 'symlink_data'], 'cwd': '/home/pi/Team_AUV/ROS_Workspace/build/thruster_mixer', 'env': {'USER': 'pi', 'SSH_CLIENT': '10.141.92.210 57453 22', 'XDG_SESSION_TYPE': 'tty', 'SHLVL': '1', 'BROWSER': '/home/pi/.vscode-server/cli/servers/Stable-4949701c880d4bdb949e3c0e6b400288da7f474b/server/bin/helpers/browser.sh', 'MOTD_SHOWN': 'pam', 'HOME': '/home/pi', 'OLDPWD': '/home/pi/Team_AUV', 'TERM_PROGRAM_VERSION': '1.99.2', 'VSCODE_IPC_HOOK_CLI': '/run/user/1000/vscode-ipc-af314ca0-f4b4-41bf-9bcf-13b291b82b52.sock', 'PS1': '\\[\x1b]633;A\x07\\](venv) \\[\x1b]633;A\x07\\]\\[\\e]0;\\u@\\h: \\w\\a\\]${debian_chroot:+($debian_chroot)}\\[\\033[01;32m\\]\\u@\\h\\[\\033[00m\\]:\\[\\033[01;34m\\]\\w \\$\\[\\033[00m\\] \\[\x1b]633;B\x07\\]\\[\x1b]633;B\x07\\]', 'SSL_CERT_FILE': '/usr/lib/ssl/cert.pem', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'COLORTERM': 'truecolor', 'LOGNAME': 'pi', '_': '/usr/bin/colcon', 'XDG_SESSION_CLASS': 'user', 'TERM': 'xterm-256color', 'XDG_SESSION_ID': '4', 'PATH': '/home/team-auv/Team_AUV/venv/bin:/home/pi/.vscode-server/cli/servers/Stable-4949701c880d4bdb949e3c0e6b400288da7f474b/server/bin/remote-cli:/usr/local/bin:/usr/bin:/bin:/usr/games', 'XDG_RUNTIME_DIR': '/run/user/1000', 'SSL_CERT_DIR': '/usr/lib/ssl/certs', 'LANG': 'en_GB.UTF-8', 'VIRTUAL_ENV_PROMPT': '(venv)', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.swp=00;90:*.tmp=00;90:*.dpkg-dist=00;90:*.dpkg-old=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:', 'TERM_PROGRAM': 'vscode', 'SHELL': '/bin/bash', 'VIRTUAL_ENV': '/home/team-auv/Team_AUV/venv', 'PWD': '/home/pi/Team_AUV/ROS_Workspace/build/thruster_mixer', 'SSH_CONNECTION': '10.141.92.210 57453 10.141.126.50 22', 'COLCON': '1', 'PYTHONPATH': '/home/pi/Team_AUV/ROS_Workspace/build/thruster_mixer/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/pi/Team_AUV/ROS_Workspace/install/thruster_mixer/lib/python3.11/site-packages:'}, 'shell': False}
+[4.744936] (-) TimerEvent: {}
+[4.845919] (-) TimerEvent: {}
+[4.946884] (-) TimerEvent: {}
+[5.047416] (-) TimerEvent: {}
+[5.148372] (-) TimerEvent: {}
+[5.249332] (-) TimerEvent: {}
+[5.350193] (-) TimerEvent: {}
+[5.451125] (-) TimerEvent: {}
+[5.552464] (-) TimerEvent: {}
+[5.653386] (-) TimerEvent: {}
+[5.754238] (-) TimerEvent: {}
+[5.855209] (-) TimerEvent: {}
+[5.956242] (-) TimerEvent: {}
+[5.960466] (thruster_mixer) StdoutLine: {'line': b'running develop\n'}
+[6.056390] (-) TimerEvent: {}
+[6.157279] (-) TimerEvent: {}
+[6.258386] (-) TimerEvent: {}
+[6.359668] (-) TimerEvent: {}
+[6.460523] (-) TimerEvent: {}
+[6.561818] (-) TimerEvent: {}
+[6.662770] (-) TimerEvent: {}
+[6.763681] (-) TimerEvent: {}
+[6.800826] (thruster_mixer) StdoutLine: {'line': b'running egg_info\n'}
+[6.801403] (thruster_mixer) StdoutLine: {'line': b'creating thruster_mixer.egg-info\n'}
+[6.856456] (thruster_mixer) StdoutLine: {'line': b'writing thruster_mixer.egg-info/PKG-INFO\n'}
+[6.857468] (thruster_mixer) StdoutLine: {'line': b'writing dependency_links to thruster_mixer.egg-info/dependency_links.txt\n'}
+[6.858156] (thruster_mixer) StdoutLine: {'line': b'writing requirements to thruster_mixer.egg-info/requires.txt\n'}
+[6.858549] (thruster_mixer) StdoutLine: {'line': b'writing top-level names to thruster_mixer.egg-info/top_level.txt\n'}
+[6.859076] (thruster_mixer) StdoutLine: {'line': b"writing manifest file 'thruster_mixer.egg-info/SOURCES.txt'\n"}
+[6.863799] (-) TimerEvent: {}
+[6.964667] (-) TimerEvent: {}
+[6.973513] (thruster_mixer) StdoutLine: {'line': b"reading manifest file 'thruster_mixer.egg-info/SOURCES.txt'\n"}
+[6.975361] (thruster_mixer) StdoutLine: {'line': b"writing manifest file 'thruster_mixer.egg-info/SOURCES.txt'\n"}
+[7.034866] (thruster_mixer) StdoutLine: {'line': b'running build_ext\n'}
+[7.035355] (thruster_mixer) StdoutLine: {'line': b'Creating /home/pi/Team_AUV/ROS_Workspace/install/thruster_mixer/lib/python3.11/site-packages/thruster-mixer.egg-link (link to .)\n'}
+[7.037114] (thruster_mixer) StdoutLine: {'line': b'\n'}
+[7.037546] (thruster_mixer) StdoutLine: {'line': b'Installed /home/pi/Team_AUV/ROS_Workspace/build/thruster_mixer\n'}
+[7.038674] (thruster_mixer) StdoutLine: {'line': b'running symlink_data\n'}
+[7.039125] (thruster_mixer) StdoutLine: {'line': b'creating /home/pi/Team_AUV/ROS_Workspace/install/thruster_mixer/share/ament_index\n'}
+[7.039362] (thruster_mixer) StdoutLine: {'line': b'creating /home/pi/Team_AUV/ROS_Workspace/install/thruster_mixer/share/ament_index/resource_index\n'}
+[7.040540] (thruster_mixer) StdoutLine: {'line': b'creating /home/pi/Team_AUV/ROS_Workspace/install/thruster_mixer/share/ament_index/resource_index/packages\n'}
+[7.041525] (thruster_mixer) StdoutLine: {'line': b'symbolically linking /home/pi/Team_AUV/ROS_Workspace/build/thruster_mixer/resource/thruster_mixer -> /home/pi/Team_AUV/ROS_Workspace/install/thruster_mixer/share/ament_index/resource_index/packages\n'}
+[7.042325] (thruster_mixer) StdoutLine: {'line': b'symbolically linking /home/pi/Team_AUV/ROS_Workspace/build/thruster_mixer/package.xml -> /home/pi/Team_AUV/ROS_Workspace/install/thruster_mixer/share/thruster_mixer\n'}
+[7.064951] (-) TimerEvent: {}
+[7.166422] (-) TimerEvent: {}
+[7.257019] (thruster_mixer) CommandEnded: {'returncode': 0}
+[7.266496] (-) TimerEvent: {}
+[7.308022] (thruster_mixer) JobEnded: {'identifier': 'thruster_mixer', 'rc': 0}
+[7.310787] (-) EventReactorShutdown: {}

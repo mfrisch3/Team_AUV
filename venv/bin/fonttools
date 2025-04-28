@@ -1,4 +1,4 @@
-#!/home/team-auv/Team_AUV/venv/bin/python3
+#!/home/pi/Team_AUV/venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys

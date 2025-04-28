@@ -1,0 +1,11 @@
+package.xml
+setup.cfg
+setup.py
+resource/thruster_mixer
+thruster_mixer/__init__.py
+thruster_mixer.egg-info/PKG-INFO
+thruster_mixer.egg-info/SOURCES.txt
+thruster_mixer.egg-info/dependency_links.txt
+thruster_mixer.egg-info/requires.txt
+thruster_mixer.egg-info/top_level.txt
+thruster_mixer.egg-info/zip-safe

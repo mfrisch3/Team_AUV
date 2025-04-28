@@ -9,16 +9,22 @@ import plotext
 plt.ion()  # Enable interactive mode for real-time plotting
 # Get GPIO pin number for the motors
 # NEED TO FIGURE OUT WHICH PIN IS MAPPED TO WHICH MOTOR
-M1_PIN = 6
-M2_PIN = 21
-M3_PIN = 16
-M4_PIN = 12
-M5_PIN = 13
-M6_PIN = 5
+M1_PIN = 21 # vertical 
+M2_PIN = 16 # back right
+M3_PIN = 12 #back left
+M4_PIN = 13 # tbd
+M5_PIN = 6 # vertical
+M6_PIN = 5 # front left
 
 # initialize motors for PWM output
 #motor = PWMOutputDevice(PIN, frequency=50)
 motor_1 = PWMOutputDevice(M1_PIN, frequency=50)
+motor_2 = PWMOutputDevice(M2_PIN, frequency=50)
+motor_3 = PWMOutputDevice(M3_PIN, frequency=50)
+motor_4 = PWMOutputDevice(M4_PIN, frequency=50)
+motor_5 = PWMOutputDevice(M5_PIN, frequency=50)
+motor_6 = PWMOutputDevice(M6_PIN, frequency=50)
+# Function to set motor speed
 addr = 0  # ADC plate address
 N = 2000  # Number of data points per channel
 
@@ -82,18 +88,61 @@ while True:
     
     max_index = np.argmax(FFT_D0[mask])
     max_freq = (freq[mask])[max_index]
+    print("Max Frequency: ", max_freq)
     # --------------------------------
     # Freq: 89-Left 96-Right 107-Back 116-Forward
     # --------------------------------
-    
-    if(max_freq == 89):
-        motor_1.value = duty_s/100
+    duty_s = 10
+    # motor_1.value = duty_s/100
+    # motor_2.value = duty_s/100
+    # motor_3.value = duty_s/100
+    motor_4.value = duty_s/100
+   # motor_5.value = duty_s/100
+    # motor_6.value = duty_s/100
+
+    # Forward
+    if(max_freq <= 115 and max_freq >= 108):
+        duty_s = 10
+        #motor_1.value = duty_s/100
         #motor_2.value = duty_s/100
+        #motor_3.value = duty_s/100
+        #motor_4.value = duty_s/100
+        motor_5.value = duty_s/100
+        motor_6.value = duty_s/100
+        print("Forward")
+
+    # Back
+    elif(max_freq >= 100 and max_freq <= 107):
+        duty_s = 10
+        #motor_1.value = duty_s/100
+        motor_2.value = duty_s/100
+        motor_3.value = duty_s/100
+        #motor_4.value = duty_s/100
+        #motor_5.value = duty_s/100
+        #motor_6.value = duty_s/100
+        print("Back")
+
+    # Left
+    elif(max_freq <= 93 and max_freq >= 85):
+        duty_s = 10
+        #motor_1.value = duty_s/100
+        motor_2.value = duty_s/100
         #motor_3.value = duty_s/100
         #motor_4.value = duty_s/100
         #motor_5.value = duty_s/100
         #motor_6.value = duty_s/100
-    
+        print("Left")
+
+    # Right
+    elif(max_freq <= 99 and max_freq >= 94):
+        duty_s = 10
+        #motor_1.value = duty_s/100
+        #motor_2.value = duty_s/100
+        motor_3.value = duty_s/100
+        #motor_4.value = duty_s/100
+        #motor_5.value = duty_s/100
+        motor_6.value = duty_s/100
+        print("Right")
 
     #if(magnitude_voltage >= 0.1):
      #   duty_s = 10
@@ -113,13 +162,13 @@ while True:
     #elif magnitude_voltage >= 0.3: 
       #  duty_s = 10
       #  motor.value = duty_s / 100
-    elif magnitude_voltage < 0.1:
-        duty_s = 4
-        motor.value = duty_s / 100  # Convert to range 0-1
+    #elif magnitude_voltage < 0.1:
+        #duty_s = 4
+        #motor.value = duty_s / 100  # Convert to range 0-1
     # Clear the data buffers for the next iteration
     data_D0 = list()
     data_D1 = list()
     data_D2 = list()
 
 
-     
+
