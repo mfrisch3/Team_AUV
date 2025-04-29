@@ -1,84 +1,62 @@
-#include <iostream>
+#include <stdio.h>
+#include <string.h>
 #include <fcntl.h>
+#include <errno.h>
 #include <termios.h>
 #include <unistd.h>
-#include <cstdint>
-#include <string>
-#include <chrono>
-#include <thread>
 
-// Constants
-#define COM 0x55
-const std::string SERIAL_PORT = "/dev/ttyS0";  // or "/dev/ttyAMA0" depending on Pi model
-const int BAUD_RATE = B115200;
+int serial_port = open("/dev/ttyUSB0", O_RDWR);
 
-// Global variables
-unsigned char buffer_RTT[4] = {0};
-uint8_t CS;
-int Distance = 0;
-int serial_fd;
+//check for error
+if (serial_port < 0){
+    printf("Error %i from open: %s\n", errno, strerror(errno));
+}
 
-void setupSerial() {
-    // Open serial port
-    serial_fd = open(SERIAL_PORT.c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
-    if (serial_fd == -1) {
-        std::cerr << "Error - Unable to open UART" << std::endl;
-        exit(1);
+struct termios tty;
+
+if(tchetattr(serial_port, &tty) != 0) {
+    printf("Error %i from tcgetattr: %s\n", errno, strerror(errno));
+}
+
+int setup(){
+    tty.c_cflag &= ~CSTOPB;
+    tty.c_cflag |= CS8;
+    tty.c_cflag &= ~CRTSCTS;
+    tty.c_cflag |= CREAD | CLOCAL;
+    tty.c_lflag &= ~ICANON;
+    tty.c_lflag &= ~ECHO;
+    tty.c_lflag &= ~ECHOE;
+    tty.c_lflag &= ~ECHONL;
+    tty.c_lfalg &= ~ISIG;
+    tty.c_iflag &= ~(IXON | IXOFF | IXANY);
+    tty.c_iflag &= ~(IGNBRK|BRKINT|PARMRK|ISTRIP|INCLR|IGNCR|ICRNL);
+    tty.c_oflag &= ~OPOST;
+    tty.c_oflag &= ~ONLCR;
+    tty.c_cc[VTIME] = 0;
+    tty.c_cc[VMIN] = 1;
+
+    // Set baud rate
+    cfsetspeed(&tty, B115200);
+
+    if (tcsetattr(serial_port, TCSANOW, &tty) != 0) {
+        printf("Error %i from tcsetattr: %s\n", errno, strerror(errno));
     }
-
-    // Configure serial port
-    struct termios options;
-    tcgetattr(serial_fd, &options);
-    options.c_cflag = BAUD_RATE | CS8 | CLOCAL | CREAD;
-    options.c_iflag = IGNPAR;
-    options.c_oflag = 0;
-    options.c_lflag = 0;
-    tcflush(serial_fd, TCIFLUSH);
-    tcsetattr(serial_fd, TCSANOW, &options);
 }
 
-void delay(int milliseconds) {
-    std::this_thread::sleep_for(std::chrono::milliseconds(milliseconds));
-}
-
-int main() {
-    setupSerial();
+int main(){
+    setup();
     
-    while(true) {
-        // Send command
-        unsigned char command = COM;
-        write(serial_fd, &command, 1);
-        delay(100);
+    while (1){
+        // read from ultrasonic
+        char read_buf [20];
+    
+        int num_bytes = read(serial_port, &read_buf, sizeof(read_buf));
 
-        // Check for available data
-        int bytes_available;
-        ioctl(serial_fd, FIONREAD, &bytes_available);
-        
-        if(bytes_available > 0) {
-            delay(4);  // Small delay to ensure all data is received
-            
-            unsigned char start_byte;
-            read(serial_fd, &start_byte, 1);
-            
-            if(start_byte == 0xff) {
-                buffer_RTT[0] = 0xff;
-                
-                // Read remaining 3 bytes
-                for(int i = 1; i < 4; i++) {
-                    read(serial_fd, &buffer_RTT[i], 1);
-                }
-                
-                // Calculate checksum
-                CS = buffer_RTT[0] + buffer_RTT[1] + buffer_RTT[2];
-                
-                if(buffer_RTT[3] == CS) {
-                    Distance = (buffer_RTT[1] << 8) + buffer_RTT[2];
-                    std::cout << "Distance: " << Distance << "mm" << std::endl;
-                }
-            }
+        if (num_bytes < 0) {
+            printf("Error reading: %s", strerror(errno));
         }
+
+        printf("Read %i bytes. Received message: %s", num_bytes, read_buf);
     }
-    
-    close(serial_fd);
-    return 0;
 }
+
