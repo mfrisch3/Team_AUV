@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from gpiozero import PWMOutputDevice
 import plotext
-
+from time import sleep
 
 plt.ion()  # Enable interactive mode for real-time plotting
 # Get GPIO pin number for the motors
@@ -18,16 +18,18 @@ M6_PIN = 5 # front left
 
 # initialize motors for PWM output
 #motor = PWMOutputDevice(PIN, frequency=50)
-motor_1 = PWMOutputDevice(M1_PIN, frequency=50)
-motor_2 = PWMOutputDevice(M2_PIN, frequency=50)
-motor_3 = PWMOutputDevice(M3_PIN, frequency=50)
-motor_4 = PWMOutputDevice(M4_PIN, frequency=50)
-motor_5 = PWMOutputDevice(M5_PIN, frequency=50)
-motor_6 = PWMOutputDevice(M6_PIN, frequency=50)
+motor_1 = PWMOutputDevice(M1_PIN, frequency=150)
+motor_2 = PWMOutputDevice(M2_PIN, frequency=150)
+motor_3 = PWMOutputDevice(M3_PIN, frequency=150)
+motor_4 = PWMOutputDevice(M4_PIN, frequency=150)
+motor_5 = PWMOutputDevice(M5_PIN, frequency=150)
+motor_6 = PWMOutputDevice(M6_PIN, frequency=150)
 # Function to set motor speed
 addr = 0  # ADC plate address
 N = 2000  # Number of data points per channel
 
+# maximum duty cycle (maximum speed)
+MAX_DUTY = 17
 
 data_D0 = list()
 data_D1 = list()
@@ -92,83 +94,44 @@ while True:
     # --------------------------------
     # Freq: 89-Left 96-Right 107-Back 116-Forward
     # --------------------------------
-    duty_s = 10
-    # motor_1.value = duty_s/100
-    # motor_2.value = duty_s/100
-    # motor_3.value = duty_s/100
+    duty_s = 1
+    motor_1.value = duty_s/100
+    motor_2.value = duty_s/100
+    motor_3.value = duty_s/100
     motor_4.value = duty_s/100
-   # motor_5.value = duty_s/100
-    # motor_6.value = duty_s/100
+    motor_5.value = duty_s/100
+    motor_6.value = duty_s/100
 
     # Forward
     if(max_freq <= 115 and max_freq >= 108):
         duty_s = 10
-        #motor_1.value = duty_s/100
-        #motor_2.value = duty_s/100
-        #motor_3.value = duty_s/100
-        #motor_4.value = duty_s/100
-        motor_5.value = duty_s/100
-        motor_6.value = duty_s/100
+        spin_motor(motor1=motor_1, motor2=motor_2)
         print("Forward")
 
     # Back
     elif(max_freq >= 100 and max_freq <= 107):
         duty_s = 10
-        #motor_1.value = duty_s/100
-        motor_2.value = duty_s/100
-        motor_3.value = duty_s/100
-        #motor_4.value = duty_s/100
-        #motor_5.value = duty_s/100
-        #motor_6.value = duty_s/100
+        spin_motor(motor2=motor_2, motor3=motor_3)
         print("Back")
 
     # Left
     elif(max_freq <= 93 and max_freq >= 85):
         duty_s = 10
-        #motor_1.value = duty_s/100
-        motor_2.value = duty_s/100
-        #motor_3.value = duty_s/100
-        #motor_4.value = duty_s/100
-        #motor_5.value = duty_s/100
-        #motor_6.value = duty_s/100
+        spin_motor(motor2=motor_2, motor4=motor_4)
         print("Left")
 
     # Right
     elif(max_freq <= 99 and max_freq >= 94):
         duty_s = 10
-        #motor_1.value = duty_s/100
-        #motor_2.value = duty_s/100
-        motor_3.value = duty_s/100
-        #motor_4.value = duty_s/100
-        #motor_5.value = duty_s/100
-        motor_6.value = duty_s/100
+        spin_motor(motor3=motor_3,motor6=motor_6)
         print("Right")
 
-    #if(magnitude_voltage >= 0.1):
-     #   duty_s = 10
-      #  motor.value = duty_s / 100  # Convert to range 0-1
-        #motor_speed = set_motor_speed(motor, duty_s)
-    #elif magnitude_voltage >= 0.12:
-       # duty_s = 6
-       # motor.value = duty_s / 100
-    #elif magnitude_voltage >= 0.15:
-     #   duty_s = 7
-     #   motor.value = duty_s / 100
-    #elif magnitude_voltage >= 0.2:
-    #     motor.value = 8
-    #elif magnitude_voltage >= 0.25:
-      #  duty_s = 9
-     #   motor.value = duty_s / 100
-    #elif magnitude_voltage >= 0.3: 
-      #  duty_s = 10
-      #  motor.value = duty_s / 100
-    #elif magnitude_voltage < 0.1:
-        #duty_s = 4
-        #motor.value = duty_s / 100  # Convert to range 0-1
-    # Clear the data buffers for the next iteration
-    data_D0 = list()
-    data_D1 = list()
-    data_D2 = list()
-
-
-
+def spin_motor(motor1=None, motor2=None, motor3=None, motor4=None, motor5=None, motor6=None):
+    for duty in range(3,MAX_DUTY):
+        motor1.value = duty/100
+        motor2.value = duty/100
+        motor3.value = duty/100
+        motor4.value = duty/100
+        motor5.value = duty/100
+        motor6.value = duty/100
+        time.sleep(0.5)
